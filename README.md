@@ -32,6 +32,27 @@ All of them are public on Hugging Face ([Fabyo04](https://huggingface.co/Fabyo04
 | [`so101_cube_v2`](https://huggingface.co/datasets/Fabyo04/so101_cube_v2) | 2 | 100 | [`act_so101_cube_v2_024`](https://huggingface.co/Fabyo04/act_so101_cube_v2_024), [`act_so101_cube_v2_100`](https://huggingface.co/Fabyo04/act_so101_cube_v2_100) |
 | [`so101_cube_v3`](https://huggingface.co/datasets/Fabyo04/so101_cube_v3) | 3 | 51 | [`act_so101_cube_v3_050`](https://huggingface.co/Fabyo04/act_so101_cube_v3_050) |
 
+## Try the model
+
+**With an SO-101 follower arm and two USB cameras**, any of the checkpoints can be run directly from Hugging Face with LeRobot 0.6.2:
+
+```bash
+lerobot-rollout \
+  --robot.type=so101_follower --robot.port=<FOLLOWER_PORT> --robot.id=<YOUR_ROBOT_ID> \
+  --robot.cameras="{ top: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30}, \
+                     front: {type: opencv, index_or_path: 1, width: 640, height: 480, fps: 30} }" \
+  --policy.path=Fabyo04/act_so101_cube_v3_050 \
+  --policy.n_action_steps=100 \
+  --device=mps --fps=30 \
+  --task="Pick up the cube and place it in the bowl" --duration=22
+```
+
+Use `--device=cuda` on an NVIDIA GPU or `--device=cpu` otherwise. Your arm must be calibrated with LeRobot first.
+
+The policies were trained on two specific camera views, an overhead camera (`top`) and a side camera (`front`). They will only behave sensibly if your cameras, bowl and work surface roughly match setup 2 or setup 3 in Section 3 of the report. Use `act_so101_cube_v3_050` for setup 3 and the `v2` models for setup 2. With a different scene, expect them to fail. That is consistent with the report's finding that performance is limited by what the cameras see.
+
+**Without the hardware**, you can browse every recorded demonstration, with both camera streams and the joint trajectories, in the [LeRobot dataset visualizer](https://huggingface.co/spaces/lerobot/visualize_dataset?path=%2FFabyo04%2Fso101_cube_v2), or load the datasets with `LeRobotDataset("Fabyo04/so101_cube_v2")`.
+
 ## Repository layout
 
 ```
