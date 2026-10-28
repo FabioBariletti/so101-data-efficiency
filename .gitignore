@@ -1,0 +1,21 @@
+# macOS / editors
+.DS_Store
+.vscode/
+__pycache__/
+
+# LaTeX build files (the PDF itself is tracked)
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+
+# private or scratch material, kept locally only
+Report/archive/
+Report/so101_project_log_IT.pdf
+notebook.ipynb
+outputs/
+docs/
+Parts_Sheets/
