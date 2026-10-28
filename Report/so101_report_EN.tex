@@ -21,7 +21,7 @@
 \usepackage{enumitem}
 \usepackage[compact,small]{titlesec}
 \usepackage[font=small,labelfont=bf,margin=0pt,skip=4pt]{caption}
-\usepackage{qrcode}
+\usepackage[nolinks]{qrcode}  % black codes; the thumbnails and text carry the links
 \usepackage[most]{tcolorbox}
 \usepackage{etoolbox}
 \usepackage[section]{placeins}
@@ -68,10 +68,12 @@
 %  LINKS — fill these in; empty ones render as "link coming soon"
 % ---------------------------------------------------------------------
 \newcommand{\urlRepo}{https://github.com/FabioBariletti/so101-data-efficiency}  % GitHub repository
-\newcommand{\urlOverview}{}    % video: project overview / teleoperation
-\newcommand{\urlSuccess}{}     % video: successful rollout
-\newcommand{\urlFailure}{}     % video: near miss
-\newcommand{\urlRetry}{}       % video: miss, correction, success (firstFail_thenSucc)
+\newcommand{\urlOverview}{https://youtu.be/vyKN_FXUBBI}  % video: project overview
+\newcommand{\urlTeleop}{https://youtu.be/N88AiXRdk1U}    % video: teleoperation
+\newcommand{\urlSuccess}{https://youtu.be/9i6e3g3P3PY}   % video: successful rollout
+\newcommand{\urlFailure}{https://youtu.be/9nU-Z0jA7Uw}   % video: near miss
+\newcommand{\urlRetry}{https://youtu.be/MIP7D85fvJ8}     % video: miss, correction, success
+\newcommand{\urlFirst}{https://youtu.be/EYgD0sOqTc4}     % video: first successful rollout
 \newcommand{\urlHF}{https://huggingface.co/Fabyo04}
 
 % thumbnail + title + (QR code and link | placeholder)
@@ -712,8 +714,23 @@ and that the gap between them is where the useful diagnostic information lives.
 \label{sec:videos}
 % =====================================================================
 
+\noindent
+\begin{minipage}[c]{0.46\textwidth}
+  \href{\urlOverview}{\includegraphics[width=\linewidth]{thumb_overview.jpg}}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.5\textwidth}
+  {\normalsize\textbf{Project overview}} \quad {\small\color{ink2}97\,s}\\[3pt]
+  \small From the first successful rollout back to the build, the demonstrations
+  and the evaluated behaviours: success, near miss, and recovery from a missed
+  grasp. Captions mark real-time and accelerated footage.\\[5pt]
+  \qrcode[height=1.5cm]{\urlOverview}\hspace{8pt}%
+  \parbox[b]{0.6\linewidth}{\small\href{\urlOverview}{watch the overview}\\[2pt]
+  \href{\urlFirst}{the first success, uncut}}
+\end{minipage}
+
+\medskip
 \begin{center}
-\videocard{thumb_teleop.jpg}{Teleoperation}{\urlOverview}\hfill
+\videocard{thumb_teleop.jpg}{Teleoperation}{\urlTeleop}\hfill
 \videocard{thumb_success.jpg}{Successful rollout}{\urlSuccess}\hfill
 \videocard{thumb_failure.jpg}{Near miss}{\urlFailure}\hfill
 \videocard{thumb_retry.jpg}{Miss, retry, success}{\urlRetry}

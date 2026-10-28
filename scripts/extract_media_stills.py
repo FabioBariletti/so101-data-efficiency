@@ -30,6 +30,7 @@ FRAMES = [
     ("mod100_pos5_succ.MOV", SUCCESS, 1200, [(11, "thumb_success")]),
     ("fail_backPros.MOV", NEARMISS, 1200, [(10, "thumb_failure")]),
     ("firstFail_thenSucc.MOV", RETRY, 1200, [(13, "thumb_retry")]),
+    ("1success.MOV", None, 1200, [(30, "thumb_overview")]),
 ]
 # HEIC photo -> (output name, longest side); the setup photos carry hand-drawn camera arrows
 PHOTOS = [

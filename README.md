@@ -6,6 +6,10 @@ I built an SO-101 arm from parts, recorded three datasets of teleoperated demons
 
 ![Success vs. near miss](Report/figures/rollouts.jpg)
 
+**Videos:** [project overview (97 s)](https://youtu.be/vyKN_FXUBBI) · [teleoperation](https://youtu.be/N88AiXRdk1U) · [successful rollout](https://youtu.be/9i6e3g3P3PY) · [near miss](https://youtu.be/9nU-Z0jA7Uw) · [miss, retry, success](https://youtu.be/MIP7D85fvJ8) · [the first success](https://youtu.be/EYgD0sOqTc4)
+
+[![Project overview video](Report/figures/thumb_overview.jpg)](https://youtu.be/vyKN_FXUBBI)
+
 ## Key findings
 
 - **4× more data, no detectable gain.** Going from 24 to 100 demonstrations moves success from 1/15 to 2/15, and the Wilson confidence intervals overlap almost entirely.

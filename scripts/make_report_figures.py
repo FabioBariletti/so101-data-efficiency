@@ -259,7 +259,7 @@ def strip(rows, name, height):
 
 
 def stills():
-    for name in ["thumb_teleop", "thumb_success", "thumb_failure", "thumb_retry", "workspace"]:
+    for name in ["thumb_overview", "thumb_teleop", "thumb_success", "thumb_failure", "thumb_retry", "workspace"]:
         shutil.copyfile(MEDIA / f"{name}.jpg", OUT / f"{name}.jpg")
 
 
