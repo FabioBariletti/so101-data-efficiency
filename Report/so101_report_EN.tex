@@ -21,6 +21,7 @@
 \usepackage{enumitem}
 \usepackage[compact,small]{titlesec}
 \usepackage[font=small,labelfont=bf,margin=0pt,skip=4pt]{caption}
+\usepackage{seqsplit}  % lets the long commit hash break across lines
 \usepackage[nolinks]{qrcode}  % black codes; the thumbnails and text carry the links
 \usepackage[most]{tcolorbox}
 \usepackage{etoolbox}
@@ -259,8 +260,8 @@ setups and models.
 \bottomrule
 \end{tabular}
 \caption{Datasets, camera setups and the models trained on them. All datasets
-are recorded at 30\,fps with 16\,s episodes. \texttt{v2\_024} uses episodes
-0--23 of dataset~2. Models are referred to by short names throughout:
+are recorded at 30\,fps, dataset~1 with 15\,s episodes and datasets~2 and~3
+with 16\,s episodes. \texttt{v2\_024} uses episodes 0--23 of dataset~2. Models are referred to by short names throughout:
 \texttt{v2\_024}, \texttt{v2\_100} and \texttt{v3\_050} stand for
 \texttt{act\_so101\_cube\_v2\_024}, \texttt{act\_so101\_cube\_v2\_100} and
 \texttt{act\_so101\_cube\_v3\_050}.}
@@ -296,7 +297,8 @@ success.
   \label{fig:gripper}
 \end{figure}
 
-\paragraph{Revised protocol.} Dataset~2 was recorded with slower, deliberate
+\paragraph{Revised protocol.} Dataset~2 is a complete re-recording of all
+100 demonstrations, with slower, deliberate
 demonstrations, often with one hand on the leader's trigger and the other
 steadying the leader arm, and the gripper opened at the \emph{start} of every
 episode: home $\rightarrow$ open gripper fully $\rightarrow$ slow approach
@@ -310,7 +312,9 @@ model or the training budget, and the dataset is the first place to look.
 
 \subsection{Setup 2: the main dataset}
 
-Datasets~1 and~2 share the same camera arrangement (Figure~\ref{fig:setup2}).
+Setups are numbered to match the dataset and model versions (\texttt{v2},
+\texttt{v3}). Datasets~1 and~2 share the same camera arrangement
+(Figure~\ref{fig:setup2}).
 The overhead camera is fixed under the shelf above the desk and looks straight
 down on the workspace. The front camera stands on a small tripod at the side
 of the table, slightly above the work surface, and looks across it toward the
@@ -369,14 +373,15 @@ eliminated.
 \paragraph{Training.} Identical hyperparameters for the three evaluated models:
 ACT with \texttt{chunk\_size}\,=\,\texttt{n\_action\_steps}\,=\,100,
 ImageNet-pretrained ResNet18 backbone, AdamW with learning rate $10^{-5}$,
-batch size 32, 20{,}000 steps, seed 42. Training cost depends on
+batch size 32, 20{,}000 steps (15{,}000 for \texttt{v3\_050}, see
+Table~\ref{tab:main}), seed 42. Training cost depends on
 steps $\times$ batch size, not on dataset size: with fewer demonstrations the
 model simply sees more epochs. The 24 vs.\ 100 comparison is therefore
 \emph{data quantity at a fixed optimisation budget} --- the question that
 matters to someone deciding how many demonstrations to record. Because the 24
-episodes are a nested subset of the 100, it is isolated from lighting drift,
-operator fatigue and setup changes; for this to be valid the cube position was
-randomised episode by episode across the whole workspace.
+episodes are a nested subset of the 100, the two models share the same setup
+and recording sessions; for this to be valid the cube position was randomised
+episode by episode across the whole workspace.
 
 \paragraph{Evaluation.} 15 cube positions, marked so that they are visible to
 the operator but not to the cameras, identical across all models; a fixed rollout duration of 22\,s for every
@@ -539,7 +544,9 @@ regrasps and completes the task.
   \includegraphics[width=\textwidth]{retry.jpg}
   \caption{One continuous rollout of \texttt{v3\_050}: the first grasp misses
   (1), the arm starts toward the bowl with an empty gripper (2), returns to the
-  cube (3), regrasps (4) and deposits it (5). Video in Section~\ref{sec:videos}.}
+  cube (3), regrasps (4) and deposits it (5). This is an extended-duration rollout
+  outside the evaluation protocol, not one of the 15 counted in
+  Table~\ref{tab:positions}. Video in Section~\ref{sec:videos}.}
   \label{fig:retry}
 \end{figure}
 
@@ -764,12 +771,14 @@ Code & \linkor{\urlRepo}{GitHub repository} \\
 \end{tabular}
 \end{center}
 
-\paragraph{Environment.} LeRobot 0.6.2, commit
-\texttt{64b23178d5348609c266250d3e1f511eba4c33ff}; Python 3.12.13; PyTorch
-2.11.0. Data collection and inference on macOS arm64 (MacBook Air M1), training
-on Linux with an NVIDIA T4. LeRobot evolves rapidly, so the commit hash is
-recorded; results are not expected to reproduce exactly across versions. A
-secondary training run used LeRobot 0.6.1 on a different platform.
+\paragraph{Environment.} Data collection and inference: LeRobot 0.6.2,
+commit \texttt{\seqsplit{64b23178d5348609c266250d3e1f511eba4c33ff}}; Python 3.12.13;
+PyTorch 2.11.0; macOS arm64 (MacBook Air M1). Training: Linux with an NVIDIA
+T4. Both dataset-2 models (\texttt{v2\_024} and \texttt{v2\_100}) were trained
+with LeRobot 0.6.1, as recorded in their model cards, so the 24 vs.\ 100
+comparison uses a single framework version. LeRobot evolves rapidly, so
+versions are recorded; results are not expected to reproduce exactly across
+them.
 
 \paragraph{Figures.} Every figure in this report is generated by
 \texttt{scripts/make\_report\_figures.py} from the public datasets, the
@@ -846,10 +855,10 @@ both 0 and 4095, and leader/follower amplitudes should match.
 Power-cycle first. One silent motor suggests a connector; six silent motors
 suggest upstream power or USB.
 
-\paragraph{Connectors are the weak point.} Three independent
-intermittent-contact failures occurred during this project (DC barrel jack,
-camera USB cable, leader board USB). Anchor every cable to the table about
-10\,cm from its connector before starting, not after the third failure.
+\paragraph{Connectors are the weak point.} Two independent
+intermittent-contact failures occurred during this project (camera USB cable,
+leader board USB). Anchor every cable to the table about 10\,cm from its
+connector before starting, not after the second failure.
 
 \paragraph{Check barrel jack dimensions.} 5.5$\times$2.1\,mm and
 5.5$\times$2.5\,mm have identical outer diameters. A mismatch feels like
